@@ -1,0 +1,25 @@
+{
+    "name": "songxue77/pay-demo",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "PayDemo\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sersong Sim",
+            "email": "snowbrightly@hotmail.com"
+        }
+    ],
+    "require": {
+        "php": "7.4.*",
+        "symfony/http-foundation": "^5.3",
+        "symfony/http-kernel": "^5.3",
+        "symfony/config": "^5.3",
+        "symfony/routing": "^5.3",
+        "symfony/dependency-injection": "^5.3",
+        "symfony/framework-bundle": "^5.3"
+    }
+}

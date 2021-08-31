@@ -1,0 +1,7 @@
+.idea/
+var/
+vendor/
+data/
+.env
+*.cache
+coverage.xml

@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: config/docker/app/Dockerfile
+    ports:
+      - 9000
+    environment:
+      - APP_ENV=dev
+    depends_on:
+      - kcp
+      - mariadb
+      - redis
+    command: [
+        'bash',
+        '-c',
+        'chmod +x /app/bin/wait-for-it.sh && /app/bin/wait-for-it.sh mariadb:3306 && /app/bin/wait-for-it.sh kcp:80 -- composer test'
+    ]
+  kcp:
+    image: 023315198496.dkr.ecr.ap-northeast-2.amazonaws.com/ridi/kcp-http-proxy:latest
+    ports:
+      - 80
+    environment:
+      - APP_ENV=dev
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - DYNAMODB_ENDPOINT=http://dynamodb:8000
+    depends_on:
+      - dynamodb
+    command: ['bash', '-c', 'yarn run init-db && yarn start']
+  mariadb:
+    image: mariadb:10.3
+    ports:
+      - 3306
+    environment:
+      - MYSQL_DATABASE=ridi_pay
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+  redis:
+    image: redis:latest
+  dynamodb:
+    image: amazon/dynamodb-local
